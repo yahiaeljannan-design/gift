@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مفاجأة لكِ</title>
+    <style>
+        body {
+            margin: 0;
+            background: #ffffff;
+            /* خلفية سوداء أنيقة */
+            color: white;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        /* تنسيق الزر الوحيد */
+        
+        #start-btn {
+            padding: 18px 35px;
+            font-size: 22px;
+            background: linear-gradient(45deg, #ff4d6d, #c9184a);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 77, 109, 0.4);
+            transition: 0.3s;
+            z-index: 100;
+        }
+        
+        #start-btn:hover {
+            transform: scale(1.1);
+        }
+        /* المحتوى المخفي */
+        
+        #main-content {
+            display: none;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .real-rose {
+            width: 220px;
+            filter: drop-shadow(0 0 15px rgba(255, 77, 109, 0.6));
+            margin-bottom: 20px;
+        }
+        
+        .photo-gallery {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .photo-gallery img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid #ff4d6d;
+        }
+        /* القلوب المتساقطة */
+        
+        .heart {
+            position: fixed;
+            top: -20px;
+            font-size: 20px;
+            animation: fall linear forwards;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
+        }
+        
+        h1 {
+            color: #ff758f;
+            text-shadow: 0 0 10px rgba(255, 117, 143, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="start-btn" onclick="openSurprise()">اضغطي هنا يا جميلتي ✨</button>
+
+    <div id="main-content">
+        <img src="https://pngimg.com/uploads/rose/rose_PNG639.png" class="real-rose" alt="Rose">
+
+        <h1>أنتِ الوردة الوحيدة في بستاني يا هاجر 🌹</h1>
+
+        <div class="photo-gallery">
+            <img src="https://via.placeholder.com/150" alt="صورة 1">
+            <img src="https://via.placeholder.com/150" alt="صورة 2">
+            <img src="https://via.placeholder.com/150" alt="صورة 3">
+        </div>
+
+        <audio id="bg-music" loop>
+            <source src="kolMakan.mp3.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script>
+        function openSurprise() {
+            // 1. إظهار المحتوى أولاً
+            document.getElementById('start-btn').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+
+            // 2. تعريف وتشغيل الموسيقى داخل الدالة
+            const music = document.getElementById('bg-music');
+
+            // محاولة التشغيل مع معالجة القيود
+            music.play().catch(function(error) {
+                console.log("فشل التشغيل التلقائي، سيتم المحاولة مرة أخرى عند أول لمسة");
+                // حل احتياطي: تشغيل عند أول لمسة للشاشة إذا فشل الزر
+                document.body.addEventListener('click', () => {
+                    music.play();
+                }, {
+                    once: true
+                });
+            });
+
+            startHearts();
+
+            // بدء تساقط القلوب
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }, 300);
+        }
+    </script>
+</body>
+
+</html>
